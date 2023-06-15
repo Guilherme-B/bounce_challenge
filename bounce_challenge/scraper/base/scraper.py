@@ -9,6 +9,7 @@ from bounce_challenge.scraper.base.error import ScraperError
 
 if TYPE_CHECKING:
     from typing import Any, Callable, Dict, Type
+
     from requests import Response
 
 
@@ -71,7 +72,7 @@ class BaseScraper(ABC):
             _description_
         """
         raise NotImplementedError()
-    
+
     @abstractmethod
     def _is_valid_url(self: Type[BaseScraper], target_url: str) -> bool:
         """Validates a target url.
@@ -87,7 +88,7 @@ class BaseScraper(ABC):
             True if the URL is valid.
         """
         raise NotImplementedError()
-    
+
     @abstractmethod
     def _validate_response(self: Type[BaseScraper], response: Response) -> bool:
         """Validates the provided request response based on its status code
@@ -103,7 +104,7 @@ class BaseScraper(ABC):
             True if the response is valid
         """
         raise NotImplementedError()
-    
+
     def _handle_error(self: Type[BaseScraper], error: ScraperError, callback: Callable[..., Any] = None) -> None:
         """Handles any response errors triggered during the scraping process.
 
@@ -117,13 +118,12 @@ class BaseScraper(ABC):
                 logging.error("Unable to access authenticated page")
             case _:
                 pass
-            
+
         if callback:
             # call the associated callback function
             callback()
 
         raise ValueError(f"Aborting due to error received: {error}")
-    
 
     @property
     def name(self: Type[BaseScraper]) -> str:
@@ -134,5 +134,5 @@ class BaseScraper(ABC):
         -------
         str
             The scraper's name
-        """        
+        """
         return self._name

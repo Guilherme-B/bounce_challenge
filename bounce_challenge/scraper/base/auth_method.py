@@ -1,10 +1,12 @@
 from dataclasses import dataclass
 from enum import Enum, unique
 
+
 @unique
 class AuthMethodType(Enum):
     TOKEN = "token"
     USERNAME = "username"
+
 
 @dataclass
 class AuthMethodToken:

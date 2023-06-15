@@ -3,22 +3,24 @@ from __future__ import annotations
 import csv
 import json
 import logging
-
 from enum import Enum, unique
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from typing import Any, Dict, List, Optional
 
+
 @unique
 class DataOutputType(Enum):
     CSV = "csv"
     JSON = "json"
 
+
 class DataAccumulator():
     """Defines a utility to accumulate the extracted data
         in addition to functions to assist in its manipulation.
-    """    
+    """
+
     def __init__(self: DataAccumulator) -> None:
         self._data = None
 
@@ -29,7 +31,7 @@ class DataAccumulator():
         ----------
         data : Dict[str, str]
             The data to be added in a JSON (Dict) format
-        """        
+        """
         if not self._data:
             self._data = data
         else:
@@ -51,19 +53,23 @@ class DataAccumulator():
         ------
         NotImplementedError
             Raises a not implemented error should the output_type not be implemented
-        """        
+        """
         if len(self._data) > 0:
             match(output_type):
                 case DataOutputType.CSV:
-                    self._to_csv(output_path=output_path, data_filters=data_filters)
+                    self._to_csv(output_path=output_path,
+                                 data_filters=data_filters)
                 case DataOutputType.JSON:
-                    self._to_json(output_path=output_path, data_filters=data_filters)
+                    self._to_json(output_path=output_path,
+                                  data_filters=data_filters)
                 case _:
-                    raise NotImplementedError(f"Accumulator dump not implemented for output type {output_type}")
-                
+                    raise NotImplementedError(
+                        f"Accumulator dump not implemented for output type {output_type}")
+
         else:
-            logging.warning("Skipping data saving due to no data being provided.")
-            
+            logging.warning(
+                "Skipping data saving due to no data being provided.")
+
     def _to_csv(self: DataAccumulator, output_path: str, data_filters: List[str] = None) -> None:
         """Stores the data into a CSV format
 
@@ -73,8 +79,9 @@ class DataAccumulator():
             The local filesystem path in which to store the information
         data_filters : List[str], optional
             The set of data headers to retain, by default None
-        """        
-        filtered_data: Dict[str, Any] = self._filter_data(data_filters=data_filters)
+        """
+        filtered_data: Dict[str, Any] = self._filter_data(
+            data_filters=data_filters)
         csv_headers: List[str] = filtered_data[0].keys()
 
         with open(output_path, 'w', newline='', encoding='UTF-8') as output_csv:
@@ -91,8 +98,9 @@ class DataAccumulator():
             The local filesystem path in which to store the information
         data_filters : List[str], optional
             The set of data headers to retain, by default None
-        """  
-        filtered_data: Dict[str, Any] = self._filter_data(data_filters=data_filters)
+        """
+        filtered_data: Dict[str, Any] = self._filter_data(
+            data_filters=data_filters)
 
         with open(output_path, 'w', newline='', encoding='UTF-8') as outfile:
             json.dump(filtered_data, outfile, indent=4, ensure_ascii=False)
@@ -110,10 +118,10 @@ class DataAccumulator():
         -------
         List[Any]
             The filtered information
-        """        
+        """
         if not data_filters:
             return self._data
-        
+
         output_data: List[Optional[Dict[str, Any]]] = []
 
         for list_item in self._data:
