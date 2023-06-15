@@ -234,7 +234,8 @@ Typical roles and responsibilities:
 - Analysis / Science / Visualization: Data Analyst
 
 
-Architecture walkthrough:
+#####  Architecture walkthrough
+
 1. Data is ingested from various operational sources via Fivetran into a Database (AWS Redshift, GCP BigQuery, Azure Synapse Analytics)
 2. Fivetran performs a pre-transformation of data and stores it into a Database (Landing layer)
 3. DbT is then used to perform the required transformations to model the data into the appropriate format, in a batch pipeline (Staging layer)
@@ -243,7 +244,13 @@ Architecture walkthrough:
 
 Data Quality and Data Catalog are both ensured by DbT.
 
+#####  Architecture diagram
+
+
 ![Data Platform - Scenario 1](resources/data_platform_scenario_1.png?raw=true "Data Platform - Scenario 1")
+
+
+#####  Architecture layer breakdown
 
 
 | Layer          | Solution      | Rationale (Pros) | Trade-off (Cons) | Stakeholder |
@@ -267,7 +274,8 @@ Typical roles and responsibilities:
 - Data Science: Data Scientist
 - ML Deployment: Machine Learning Engineer
 
-Architecture walkthrough:
+#####  Architecture walkthrough
+
 1. Data Ingestion
 1.1 Data is ingested from various operational sources via Fivetran or Airbyte into a Data Lake in an unstructured format (1)
 1.2 Data can also be injected directly from third parties into the Data Lake or Spark allowing for mini-batch or real-time workloads (2)
@@ -282,8 +290,13 @@ Data Quality is insured by Spark libraries such as Great Expectations and Data C
 
 Note: Under a lakehouse architecture, no historical changes are ever lost. From the raw to presentation data, everything can be tracked, autited and reprocessed.
 
+#####  Architecture diagram
+
+
 ![Data Platform - Scenario 2](resources/data_platform_scenario_2.png?raw=true "Data Platform - Scenario 2")
 
+
+#####  Architecture layer breakdown
 
 | Layer          | Solution      | Rationale (Pros) | Trade-off (Cons) | Stakeholder |
 | -------------  | ------------- | ------------- | ------------- | ------------- |
