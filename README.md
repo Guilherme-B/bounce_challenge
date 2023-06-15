@@ -2,21 +2,11 @@
 
 
 1. [Exercise 1 - Python Script for Data Extraction from REST API](#exercise-1)
-   1. [Assumptions](assumptions-1)
-   2. [Solution](solution-1)
-   3. [Future Work](future-work-1)
 2. [Exercise 2 - Advanced SQL Query for Time-based Events Analysis](#exercise-2)
-   1. [Assumptions](assumptions-2)
-   2. [Solution](solution-2)
 3. [Exercise 3 - Geospatial Modeling Challenge](#exercise-3)
-   1. [Assumptions](assumptions-3)
-   2. [Solution](solution-3)
 4. [Exercise 4 - Cloud-based Data Stack Architecture Documen](#exercise-4)
-   1. [Solution](solution-3)
-      1. [Scenario 1](solution-3-scenario-1)
-      2. [Scenario 2](solution-3-scenario-2)
 
-<h2 id="exercise-1"> Exercise 1 - Python Script for Data Extraction from REST API </h2>
+## [Exercise 1 - Python Script for Data Extraction from REST API](#exercise-1)
 
 Your first task is to write a Python script to extract data from the GitHub API. The API returns paginated responses for repository data. Your script should be able to handle paging, cursors, and authentication and should store the extracted data in a suitable format for further analysis.
 
@@ -29,17 +19,17 @@ Here's the API endpoint you need to extract data from: `https://api.github.com/u
 3. Handle API authentication.
 4. Save the data in a CSV format for further analysis.
 
-<h3 id="assumptions-1"> Assumptions</h3>
+### Assumptions
 
 - The implementation must be manual and not use any existing library such as PyGithub (https://github.com/PyGithub/PyGithub) or Scrapy
 - The implementation must be sequential due to the linear dependency of the cursor pagination meaning, no multi-threading nor Asyncio implementations are valid
 
-<h4 id="future-work-1"> Future Work</h3>
+#### Future Work
 - Replace the custom library with a set of existing, heavily tested implementations such as Scrapy and PyGithub
 - Add unit and integration tests
 - Add a CI/CD for the target deployment platform
 
-<h3 id="solution-1"> Solution</h3>
+### Solution
 
 Notes: The challenge requires saving the data in CSV. Given it is unstructured data, I would opt instead to store it in an optimized format (Parquet, Delta) or as an alternative, JSON.
 
@@ -58,7 +48,7 @@ To start the process execute the following command:
 | Scraper  | `--t`  | `--use_token`  | Flag  | True | `--use_token` | Should a token be used for authentication (stored in Env variable `AUTH_TOKEN`) | |
 | Scraper  | `--f`  | `--filters_list`  | String List  | False | `--filters_list user_id, repo_id` | A list of extracted data attributes to be selected | `id, node_id, name, full_name, private,html_url, description ,fork,url, created_at, updated_at, pushed_at, git_url, ssh_url, clone_url, homepage, size, has_issues, has_projects, has_downloads, archived, disabled, license, visibility, watchers` |
 
-<h2 id="exercise-2"> Exercise 2 - Advanced SQL Query for Time-based Events Analysis</h2>
+## [Exercise 2 - Advanced SQL Query for Time-based Events Analysis](#exercise-2)
 
 Imagine you have an e-commerce dataset with the following three tables:
 
@@ -68,7 +58,7 @@ Imagine you have an e-commerce dataset with the following three tables:
 
 Write a SQL query that returns the top 3 products in each category with the highest total sales in the past week, but only for the customers that registered in the past year. Also, filter out the results for the categories that have total sales of less than 100 units in the past week. Please use window functions to accomplish this.
 
-<h3 id="solution-2"> Solution</h3>
+### Solution
 
 
 > The implementation can be found in the `resources/exercise_2.sql` file or below.
@@ -135,7 +125,7 @@ QUALIFY
   category_rank < 4
 ```
 
-<h3 id="assumptions-2"> Assumptions</h3>
+### Assumptions
 
 Configuration assumptions:
 - The underlying database is a Postgres instance
@@ -148,7 +138,7 @@ Data assumptions:
 
 Note: All operations use ANSI SQL only to ensure cross-platofrm compatibility
 
-<h2 id="exercise-3"> Exercise 3 - Geospatial Modeling Challenge</h2>
+## Exercise 3 - Geospatial Modeling Challenge](#exercise-3)
 
 For this task, imagine we have an application where users check into various locations and these check-ins are recorded with geospatial data. We want to create a heatmap of these check-ins.
 
@@ -157,7 +147,7 @@ Design a data model (schema) that would support this use-case. This should inclu
 Provide the SQL commands necessary to create this schema.
 
 
-<h3 id="solution-3"> Solution</h3>
+### Solution
 
 
 > The implementation can be found in the `resources/exercise_3.sql` file.
@@ -190,14 +180,14 @@ Note: All column descriptions and types have been moved onto the corresponding `
 
 ![Data Model](resources/data_model_diagram.PNG?raw=true "Data Model")
 
-<h3 id="assumptions-3"> Assumptions</h3>
+### Assumptions
 
 - The main assumption is related with how the data will be queried. In this specific case, it is assumed that users will most likely query via H3 indexes under a level 9 resolution for a given time period.
 - In addition, PostgresSQL with Postgis extension enabled has been assumed as it introduces several geometric capabilities including but not limited to, spatial indexing
 - Regarding the heavy usage of indexes, the assumption is that the cost of maintaining and adding new indexes is low compared with the compute and availability costs
 
 
-<h2 id="exercise-4"> Exercise 4: Cloud-based Data Stack Architecture Document</h2>
+## [Exercise 4: Cloud-based Data Stack Architecture Document](#exercise-4)
 
 Lastly, create a document that describes an architecture for a modern cloud-based data stack. Your architecture should include tools for extraction (ETL), transformation, and analytics.
 
@@ -221,7 +211,7 @@ Your solution should include:
 - A `README` file that includes any necessary instructions for running your scripts and an explanation of your work.
 
 
-<h3 id="solution-4"> Solution</h3>
+### Solution
 
 The tools in each scenario have been selected by balancing the following main topics:
 - Scalability: how well does each tool scale according to the 4 V's of Data
@@ -235,7 +225,7 @@ The tools in each scenario have been selected by balancing the following main to
 
 Note: In practice DbT can be set to leverage Spark as well, creating a common ground and middle-term between the first and second scenarios, combining DbT's simplicity with Spark's flexibility.
 
-<h4 id="solution-4-scenario-1"> Scenario 1</h4>
+#### Scenario 1
 
 The first scenario corresponds to that of a startup environment, where a small team is focusing in finding answers fast and fast iterations, where development speed is valued over costs and scalability with a focus in self-serve analytics. Lastly, the focus is mainly in batch operations. The architecture corresponds to a traditional Data Warehousing platform, solely capable of batch processing pipelines.
 
@@ -253,7 +243,7 @@ Architecture walkthrough:
 
 Data Quality and Data Catalog are both ensured by DbT.
 
-![Data Platform - Scenario 1](resources/data_platform_scenario_1.PNG?raw=true "Data Platform - Scenario 1")
+![Data Platform - Scenario 1](resources/data_platform_scenario_1.png?raw=true "Data Platform - Scenario 1")
 
 
 | Layer          | Solution      | Rationale (Pros) | Trade-off (Cons) | Stakeholder |
@@ -266,7 +256,7 @@ Data Quality and Data Catalog are both ensured by DbT.
 | Data Quality      | DbT      | Simple data quality layer which is easy to implement | Relies on SQL code not allowing for a properly distributed DQ layer with complex rules |Data/Analytics Engineer |
 | Data Catalog      | DbT      | Automatic Data Lineage | Simple lineage, not available for external Stakeholders |Data/Analytics Engineer |
 
-<h4 id="solution-4-scenario-2"> Scenario 2</h4>
+#### Scenario 2
 
 The second scenario corresponds to that of a scaleup environment, where the Data teams are starting to enlarge and focus in developing complex, maintaneable and scalable infrastructures with an increasing focus in diverse teams (self-serve Stakeholders, Data Scientists, ML Engineers, Data Eneigners, Analytics Engineers), cost and scalability are increasingly important. Lastly, a more diverse type of workload is required, including batch, microbatch and streaming pipelines. In a nutshell, the architecture is based on a Lakehouse architecture, adaptable to both Lambda and Kappa achitectures.
 
@@ -292,7 +282,7 @@ Data Quality is insured by Spark libraries such as Great Expectations and Data C
 
 Note: Under a lakehouse architecture, no historical changes are ever lost. From the raw to presentation data, everything can be tracked, autited and reprocessed.
 
-![Data Platform - Scenario 2](resources/data_platform_scenario_2.PNG?raw=true "Data Platform - Scenario 2")
+![Data Platform - Scenario 2](resources/data_platform_scenario_2.png?raw=true "Data Platform - Scenario 2")
 
 
 | Layer          | Solution      | Rationale (Pros) | Trade-off (Cons) | Stakeholder |
